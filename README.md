@@ -2,7 +2,7 @@
 
 > Machine learning application for predicting customer churn.
 
-RetentionIQ combines a trained **Random Forest** model with a **FastAPI** backend and a **React + TypeScript** frontend to predict customer churn probability.
+RetentionIQ combines a trained **Logistic Regression** model with a **FastAPI** backend and a **React + TypeScript** frontend to predict customer churn probability.
 
 <img width="1917" height="1031" alt="Screenshot 2026-08-30 130726" src="https://github.com/user-attachments/assets/910f7d70-d370-4adf-b675-85eb5dcdee78" />
 
@@ -11,7 +11,7 @@ RetentionIQ combines a trained **Random Forest** model with a **FastAPI** backen
 
 * 🎯 Customer churn prediction
 * 📊 Churn probability score
-* 🌲 Random Forest classification model
+* 📈 Logistic Regression classification model
 * ⚡ FastAPI REST API
 * ⚛️ React + TypeScript frontend
 * 💚 API health monitoring
@@ -38,7 +38,7 @@ RetentionIQ combines a trained **Random Forest** model with a **FastAPI** backen
 
 ## 🤖 Machine Learning
 
-RetentionIQ uses a **Random Forest classifier** to predict whether a customer is likely to churn.
+RetentionIQ uses a **Logistic Regression model** to predict whether a customer is likely to churn.
 
 The API returns both the prediction and the estimated churn probability.
 
