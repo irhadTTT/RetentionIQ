@@ -27,6 +27,11 @@ export interface PredictionResult {
   prediction: string;
 }
 
+export interface ModelComparisonResult {
+  logistic_regression: PredictionResult;
+  xgboost: PredictionResult;
+}
+
 export async function predictChurn(
   customer: CustomerData
 ): Promise<PredictionResult> {
@@ -40,6 +45,24 @@ export async function predictChurn(
 
   if (!response.ok) {
     throw new Error("Prediction request failed");
+  }
+
+  return response.json();
+}
+
+export async function compareModels(
+  customer: CustomerData
+): Promise<ModelComparisonResult> {
+  const response = await fetch(`${API_URL}/compare`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(customer),
+  });
+
+  if (!response.ok) {
+    throw new Error("Model comparison request failed");
   }
 
   return response.json();

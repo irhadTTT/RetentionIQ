@@ -25,3 +25,5 @@ Thumbs.db
 
 # Keep production model
 !models/churn_model.pkl
+!models/logistic_regression.joblib
+!models/xgboost_model.joblib

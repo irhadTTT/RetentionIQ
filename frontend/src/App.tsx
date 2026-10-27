@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 
 import {
-  predictChurn,
   checkHealth,
+  compareModels,
   type CustomerData,
-  type PredictionResult,
+  type ModelComparisonResult
 } from "./services/api";
 
 const initialCustomer: CustomerData = {
@@ -31,7 +31,7 @@ const initialCustomer: CustomerData = {
 
 function App() {
   const [customer, setCustomer] = useState<CustomerData>(initialCustomer);
-  const [result, setResult] = useState<PredictionResult | null>(null);
+  const [comparison, setComparison] = useState<ModelComparisonResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -59,11 +59,11 @@ function App() {
   async function handlePredict() {
     setLoading(true);
     setError("");
-    setResult(null);
+    setComparison(null);
 
     try {
-      const prediction = await predictChurn(customer);
-      setResult(prediction);
+      const result = await compareModels(customer);
+      setComparison(result);
     } catch {
       setError(
         "Unable to connect to the prediction API. Make sure FastAPI is running."
@@ -90,8 +90,8 @@ function App() {
 
           <div
             className={`flex items-center gap-2 rounded-full px-3 py-1 text-sm font-medium ${apiOnline
-                ? "bg-green-100 text-green-700"
-                : "bg-red-100 text-red-700"
+              ? "bg-green-100 text-green-700"
+              : "bg-red-100 text-red-700"
               }`}
           >
             <span
@@ -346,16 +346,13 @@ function App() {
 
           <div className="rounded-xl border bg-white p-6 shadow-sm">
             <h3 className="text-lg font-semibold text-slate-900">
-              Prediction Result
+              Model Comparison
             </h3>
 
-            {!result && (
+            {!comparison && (
               <div className="flex min-h-80 items-center justify-center text-center">
                 <div>
-                  <p className="text-slate-400">
-                    No prediction yet
-                  </p>
-
+                  <p className="text-slate-400">No prediction yet</p>
                   <p className="mt-2 text-sm text-slate-400">
                     Enter customer information and click Predict Churn.
                   </p>
@@ -363,30 +360,45 @@ function App() {
               </div>
             )}
 
-            {result && (
-              <div className="mt-10 text-center">
-                <p className="text-sm text-slate-500">
-                  Churn Probability
-                </p>
+            {comparison && (
+              <div className="mt-6 space-y-6">
+                {(
+                  [
+                    {
+                      name: "Logistic Regression",
+                      result: comparison.logistic_regression,
+                    },
+                    {
+                      name: "XGBoost",
+                      result: comparison.xgboost,
+                    },
+                  ] as const
+                ).map(({ name, result }) => (
+                  <div key={name} className="rounded-lg border p-4">
+                    <h4 className="font-semibold text-slate-900">{name}</h4>
 
-                <p className="mt-3 text-6xl font-bold text-slate-900">
-                  {(result.churn_probability * 100).toFixed(2)}%
-                </p>
+                    <p className="mt-3 text-sm text-slate-500">
+                      Churn Probability
+                    </p>
 
-                <p
-                  className={`mt-5 text-xl font-bold ${result.prediction === "Yes"
-                    ? "text-red-600"
-                    : "text-green-600"
-                    }`}
-                >
-                  {result.prediction === "Yes"
-                    ? "HIGH RISK"
-                    : "LOW RISK"}
-                </p>
+                    <p className="mt-1 text-4xl font-bold text-slate-900">
+                      {(result.churn_probability * 100).toFixed(2)}%
+                    </p>
 
-                <p className="mt-3 text-sm text-slate-500">
-                  Prediction: {result.prediction}
-                </p>
+                    <p
+                      className={`mt-3 text-lg font-bold ${result.prediction === "Yes"
+                          ? "text-red-600"
+                          : "text-green-600"
+                        }`}
+                    >
+                      {result.prediction === "Yes" ? "HIGH RISK" : "LOW RISK"}
+                    </p>
+
+                    <p className="mt-1 text-sm text-slate-500">
+                      Prediction: {result.prediction}
+                    </p>
+                  </div>
+                ))}
               </div>
             )}
           </div>
