@@ -42,6 +42,24 @@ export interface ExplanationResult extends PredictionResult {
   explanations: FeatureExplanation[];
 }
 
+export interface ModelEvaluation {
+  accuracy: number;
+  precision: number;
+  recall: number;
+  f1_score: number;
+  roc_auc: number;
+  confusion_matrix: number[][];
+}
+
+export interface EvaluationResult {
+  test_samples: number;
+  positive_class: string;
+  models: {
+    logistic_regression: ModelEvaluation;
+    xgboost: ModelEvaluation;
+  };
+}
+
 export async function predictChurn(
   customer: CustomerData
 ): Promise<PredictionResult> {
@@ -101,6 +119,16 @@ export async function explainPrediction(
 
   if (!response.ok) {
     throw new Error("Prediction explanation request failed");
+  }
+
+  return response.json();
+}
+
+export async function getModelEvaluation(): Promise<EvaluationResult> {
+  const response = await fetch(`${API_URL}/evaluate`);
+
+  if (!response.ok) {
+    throw new Error("Failed to load model evaluation");
   }
 
   return response.json();

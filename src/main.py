@@ -7,6 +7,14 @@ import numpy as np
 from src.schemas import CustomerData
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+    roc_auc_score,
+    confusion_matrix
+)
 
 
 app = FastAPI(
@@ -129,4 +137,51 @@ def explain_prediction(customer: CustomerData):
             }
             for _, row in top_factors.iterrows()
         ]
+    }
+
+@app.get("/evaluate")
+def evaluate_models():
+    evaluation_path = BASE_DIR / "data" / "evaluation_test.csv"
+
+    if not evaluation_path.exists():
+        return {"error": "Evaluation dataset not found"}
+
+    df = pd.read_csv(evaluation_path)
+
+    X_eval = df.drop(columns=["Churn"])
+    y_eval = df["Churn"]
+
+    results = {}
+
+    models = {
+        "logistic_regression": lr_model,
+        "xgboost": xgb_model,
+    }
+
+    for name, model in models.items():
+        y_pred = model.predict(X_eval)
+        probabilities = model.predict_proba(X_eval)
+
+        classes = list(model.classes_)
+        positive_index = classes.index("Yes") if "Yes" in classes else classes.index(1)
+        y_probability = probabilities[:, positive_index]
+
+        y_true_binary = (y_eval == "Yes").astype(int)
+        y_pred_binary = (y_pred == "Yes").astype(int) if "Yes" in classes else y_pred.astype(int)
+
+        results[name] = {
+            "accuracy": round(float(accuracy_score(y_true_binary, y_pred_binary)), 4),
+            "precision": round(float(precision_score(y_true_binary, y_pred_binary, zero_division=0)), 4),
+            "recall": round(float(recall_score(y_true_binary, y_pred_binary, zero_division=0)), 4),
+            "f1_score": round(float(f1_score(y_true_binary, y_pred_binary, zero_division=0)), 4),
+            "roc_auc": round(float(roc_auc_score(y_true_binary, y_probability)), 4),
+            "confusion_matrix": confusion_matrix(
+                y_true_binary, y_pred_binary, labels=[0, 1]
+            ).tolist()
+        }
+
+    return {
+        "test_samples": len(df),
+        "positive_class": "Yes",
+        "models": results
     }
