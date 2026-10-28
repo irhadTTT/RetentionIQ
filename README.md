@@ -4,15 +4,17 @@ Live Demo deployed on Render: https://retentioniq-frontend.onrender.com
 
 > Machine learning application for predicting customer churn.
 
-RetentionIQ combines a trained **Logistic Regression** and **XGBoost** model with a **FastAPI** backend and a **React + TypeScript** frontend to predict customer churn probability. It features **SHAP-based** explainability to help interpret predictions and enables model performance comparison.
+RetentionIQ combines a trained **Logistic Regression** and **XGBoost** model with a **FastAPI** backend and a **React + TypeScript** frontend to predict customer churn probability. It includes **SHAP-based explainability** to interpret individual predictions and a **Model Evaluation dashboard** to compare model performance using metrics such as accuracy, precision, recall, F1-score, and ROC-AUC.
 
-<img width="1917" height="1026" alt="Screenshot 2026-10-28 170603" src="https://github.com/user-attachments/assets/1c87ff86-4189-4c30-8893-522016c74312" />
+<img width="1911" height="1022" alt="Screenshot 2026-10-28 214719" src="https://github.com/user-attachments/assets/8ea4a77f-9630-4702-b51b-cb4e1c09ace9" />
 
 <img width="1917" height="1026" alt="Screenshot 2026-10-28 170618" src="https://github.com/user-attachments/assets/e3127872-28e9-4b75-abbc-9bdfdb63cbd7" />
 
 <img width="1906" height="1025" alt="Screenshot 2026-10-28 170637" src="https://github.com/user-attachments/assets/71e6add0-9e2a-4d71-82ca-dea7d35828b9" />
 
+<img width="1915" height="1018" alt="Screenshot 2026-10-28 213311" src="https://github.com/user-attachments/assets/af0d8f43-4f3c-448a-9372-76253cf61c1d" />
 
+<img width="1917" height="1026" alt="Screenshot 2026-10-28 213329" src="https://github.com/user-attachments/assets/0fb25d9d-3b86-43cf-9df1-22c541db48ff" />
 
 🌐 Live Deployment
 
