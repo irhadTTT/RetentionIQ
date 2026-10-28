@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 import pandas as pd
 import joblib
+import shap
+import numpy as np
 
 from src.schemas import CustomerData
 from fastapi.middleware.cors import CORSMiddleware
@@ -25,6 +27,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 LR_MODEL_PATH = BASE_DIR / "models" / "logistic_regression.joblib"
 XGB_MODEL_PATH = BASE_DIR / "models" / "xgboost_model.joblib"
+XGB_SHAP_MODEL_PATH = BASE_DIR / "models" / "xgboost_model_shap.joblib"
+
+xgb_shap_model = joblib.load(XGB_SHAP_MODEL_PATH)
+
+shap_explainer = shap.TreeExplainer(
+    xgb_shap_model.named_steps["classifier"]
+)
+
+shap_preprocessor = xgb_shap_model.named_steps["preprocessor"]
+shap_feature_names = shap_preprocessor.get_feature_names_out()
 
 lr_model = joblib.load(LR_MODEL_PATH)
 xgb_model = joblib.load(XGB_MODEL_PATH)
@@ -74,4 +86,47 @@ def compare_models(customer: CustomerData):
             "churn_probability": round(float(xgb_probability), 4),
             "prediction": "Yes" if xgb_probability >= 0.30 else "No"
         }
+    }
+
+@app.post("/explain")
+def explain_prediction(customer: CustomerData):
+    customer_df = pd.DataFrame([customer.model_dump()])
+
+    probability = xgb_shap_model.predict_proba(customer_df)[0, 1]
+
+    transformed_customer = shap_preprocessor.transform(customer_df)
+
+    shap_values = shap_explainer.shap_values(transformed_customer)
+    shap_values = np.asarray(shap_values).reshape(-1)
+
+    explanation = pd.DataFrame({
+        "feature": shap_feature_names,
+        "shap_value": shap_values
+    })
+
+    explanation["impact"] = np.where(
+        explanation["shap_value"] > 0,
+        "Increases churn risk",
+        "Decreases churn risk"
+    )
+
+    explanation["abs_shap"] = explanation["shap_value"].abs()
+
+    top_factors = (
+        explanation
+        .sort_values("abs_shap", ascending=False)
+        .head(10)
+    )
+
+    return {
+        "churn_probability": round(float(probability), 4),
+        "prediction": "Yes" if probability >= 0.30 else "No",
+        "explanations": [
+            {
+                "feature": row["feature"],
+                "shap_value": round(float(row["shap_value"]), 4),
+                "impact": row["impact"]
+            }
+            for _, row in top_factors.iterrows()
+        ]
     }

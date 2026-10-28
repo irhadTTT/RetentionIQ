@@ -43,7 +43,7 @@ class CustomerData(BaseModel):
                 "PaperlessBilling": "Yes",
                 "PaymentMethod": "Electronic check",
                 "MonthlyCharges": 70.70,
-                "TotalCharges": 151.65
+                "TotalCharges": 0
             }
         }
     }

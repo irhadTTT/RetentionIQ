@@ -32,6 +32,16 @@ export interface ModelComparisonResult {
   xgboost: PredictionResult;
 }
 
+export interface FeatureExplanation {
+  feature: string;
+  shap_value: number;
+  impact: string;
+}
+
+export interface ExplanationResult extends PredictionResult {
+  explanations: FeatureExplanation[];
+}
+
 export async function predictChurn(
   customer: CustomerData
 ): Promise<PredictionResult> {
@@ -76,4 +86,22 @@ export async function checkHealth(): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+export async function explainPrediction(
+  customer: CustomerData
+): Promise<ExplanationResult> {
+  const response = await fetch(`${API_URL}/explain`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(customer),
+  });
+
+  if (!response.ok) {
+    throw new Error("Prediction explanation request failed");
+  }
+
+  return response.json();
 }
