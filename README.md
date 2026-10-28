@@ -13,6 +13,7 @@ RetentionIQ combines a trained **Logistic Regression** and **XGBoost** model wit
 <img width="1906" height="1025" alt="Screenshot 2026-10-28 170637" src="https://github.com/user-attachments/assets/71e6add0-9e2a-4d71-82ca-dea7d35828b9" />
 
 
+
 🌐 Live Deployment
 
 Frontend: https://retentioniq-frontend.onrender.com
@@ -50,12 +51,21 @@ API Documentation: https://retentioniq-5ukl.onrender.com/docs
 
 ### Backend
 
-* Python
-* FastAPI
-* Pandas
-* Scikit-learn
-* Joblib
-* Docker
+🐍 Python
+
+⚡ FastAPI
+
+🐼 Pandas
+
+🤖 Scikit-learn
+
+🚀 XGBoost
+
+🔍 SHAP
+
+📦 Joblib
+
+🐳 Docker
 
 ### Frontend
 
@@ -78,32 +88,6 @@ Example response:
   "prediction": "Yes"
 }
 ```
-
-## 🐳 Running with Docker
-
-Clone the repository and run:
-
-```bash
-docker compose up --build
-```
-
-### Application
-
-**Frontend**
-
-http://localhost:5173
-
-**API**
-
-http://localhost:8000
-
-**Swagger Documentation**
-
-http://localhost:8000/docs
-
-**Health Check**
-
-http://localhost:8000/health
 
 ## 📁 Project Structure
 
