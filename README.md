@@ -2,9 +2,13 @@
 
 > Machine learning application for predicting customer churn.
 
-RetentionIQ combines a trained **Logistic Regression** and **XGBoost** model with a **FastAPI** backend and a **React + TypeScript** frontend to predict customer churn probability.
+RetentionIQ combines a trained **Logistic Regression** and **XGBoost** model with a **FastAPI** backend and a **React + TypeScript** frontend to predict customer churn probability. It features **SHAP-based** explainability to help interpret predictions and enables model performance comparison.
 
-<img width="1915" height="1032" alt="Screenshot 2026-10-27 183800" src="https://github.com/user-attachments/assets/86bdfd64-adf8-4a4d-832d-eee86af3b902" />
+<img width="1917" height="1026" alt="Screenshot 2026-10-28 170603" src="https://github.com/user-attachments/assets/1c87ff86-4189-4c30-8893-522016c74312" />
+
+<img width="1917" height="1026" alt="Screenshot 2026-10-28 170618" src="https://github.com/user-attachments/assets/e3127872-28e9-4b75-abbc-9bdfdb63cbd7" />
+
+<img width="1906" height="1025" alt="Screenshot 2026-10-28 170637" src="https://github.com/user-attachments/assets/71e6add0-9e2a-4d71-82ca-dea7d35828b9" />
 
 
 
