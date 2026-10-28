@@ -1,5 +1,7 @@
 # RetentionIQ
 
+Live Demo deployed on Render: https://retentioniq-frontend.onrender.com
+
 > Machine learning application for predicting customer churn.
 
 RetentionIQ combines a trained **Logistic Regression** and **XGBoost** model with a **FastAPI** backend and a **React + TypeScript** frontend to predict customer churn probability. It features **SHAP-based** explainability to help interpret predictions and enables model performance comparison.
@@ -11,17 +13,38 @@ RetentionIQ combines a trained **Logistic Regression** and **XGBoost** model wit
 <img width="1906" height="1025" alt="Screenshot 2026-10-28 170637" src="https://github.com/user-attachments/assets/71e6add0-9e2a-4d71-82ca-dea7d35828b9" />
 
 
+🌐 Live Deployment
+
+Frontend: https://retentioniq-frontend.onrender.com
+
+Backend API: https://retentioniq-5ukl.onrender.com
+
+API Documentation: https://retentioniq-5ukl.onrender.com/docs
+
 
 ## 🚀 Features
 
-* 🎯 Customer churn prediction
-* 📊 Churn probability score
-* 📈 Logistic Regression classification model
-* ⚡ FastAPI REST API
-* ⚛️ React + TypeScript frontend
-* 💚 API health monitoring
-* 🐳 Docker & Docker Compose
-* 📚 Swagger / OpenAPI documentation
+🎯 Customer churn prediction
+
+📊 Churn probability scores
+
+📈 Logistic Regression classification model
+
+🚀 XGBoost classification model
+
+🔍 SHAP-based prediction explainability
+
+⚖️ Model performance comparison
+
+⚡ FastAPI REST API
+
+⚛️ React + TypeScript frontend
+
+💚 API health monitoring
+
+🐳 Docker & Docker Compose
+
+📚 Swagger / OpenAPI documentation
 
 ## 🛠️ Tech Stack
 
